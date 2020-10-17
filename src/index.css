@@ -69,3 +69,33 @@ body, html, .App, #root, .auth-wrapper {
 .forgot-password a {
   color: #167bff;
 }
+
+
+.menu-left, .menu-right {
+  padding-top: 80px;
+}
+
+.menu-left ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.menu-left ul li {
+  background: #fff;
+  margin: 5px 0px;
+  
+}
+
+.menu-left ul li a {
+  color: #167bff;
+  width: 100%;
+  display: block;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}

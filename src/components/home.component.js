@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
+import Menu from '../components/menu.component';
 
 class Home extends Component {
     render() {
         if (this.props.user) {
             return (
-                <div className="auth-wrapper">
-                    <div className="auth-inner">
-                        <h2>Hi {this.props.user.first_name} {this.props.user.last_name}</h2>
+                <>
+                    <Menu />
+                    <div className="col-9 auth-wrapper">
+                        <div className="auth-inner">
+                            <h2>Hi {this.props.user.first_name} {this.props.user.last_name}</h2>
+                        </div>
                     </div>
-                </div>
+                </>
             );
         }
         return (
