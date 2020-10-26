@@ -4,6 +4,8 @@ import './App.css';
 import Home from './components/home.component';
 import Nav from './components/nav.component';
 import Login from './components/login.component';
+import Listar from './components/listar.component';
+import Register from './components/register.component';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import axios from "axios";
 
@@ -14,7 +16,9 @@ class App extends Component {
     componentDidMount = () => {
         axios.get('user.php').then(
             res => {
-                this.setUser(res.data);
+                if (res.data.message === 'success') {
+                    this.setUser(res.data.user);
+                }
             },
             err => {
                 console.log(err);
@@ -36,6 +40,8 @@ class App extends Component {
                     <Switch>
                         <Route exact path="/" component={ () => <Home user={this.state.user} /> }/>
                         <Route exact path="/login" component={() => <Login setUser={this.setUser} />}/>
+                        <Route exact path="/Listar" component={() => <Listar setUser={this.setUser} />}/>
+                        <Route exact path="/register" component={() => <Register setUser={this.setUser} />}/>
                     </Switch>
                 </div>
             </BrowserRouter>

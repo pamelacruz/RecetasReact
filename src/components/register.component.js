@@ -40,7 +40,7 @@ class Register extends Component {
             <div className="container-fluid">
             <div className="row">
                 <Menu />
-                <div className="menu-right col-9">
+                <div className="menu-right menu-panel col-9">
                     <form onSubmit={this.handleSubmit} className={this.state.classHide}>
                         <h3>Sign up</h3>
 
@@ -69,10 +69,10 @@ class Register extends Component {
                             <input type="password" className="form-control" placeholder="Confirm Password" onChange={e => this.confirmPassword = e.target.value } />
                         </div>
 
-                        <button className="btn btn-primary btn-block">Sign Up</button>
+                        <button className="btn btn-primary btn-block">Registrar usuario</button>
                     </form>
                     <div className={this.state.classShow}>
-                        <div class="alert alert-success" role="alert">
+                        <div className="alert alert-success" role="alert">
                             Registro exitoso!
                         </div>
                     </div>

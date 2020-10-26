@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Fire+Sans:400,500,600,700,800');
-
 * {
   box-sizing: border-box;
 }
@@ -98,4 +96,12 @@ body, html, .App, #root, .auth-wrapper {
 
 .hide {
   display: none;
+}
+
+.menu-panel {
+  background: #fff;
+}
+
+.menu-panel form{
+  padding: 20px;
 }
