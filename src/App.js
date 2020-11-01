@@ -14,7 +14,12 @@ class App extends Component {
     state = {};
 
     componentDidMount = () => {
-        axios.get('user.php').then(
+        const config = {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        }
+        axios.get('user.php', config).then(
             res => {
                 if (res.data.message === 'success') {
                     this.setUser(res.data.user);
@@ -42,6 +47,7 @@ class App extends Component {
                         <Route exact path="/login" component={() => <Login setUser={this.setUser} />}/>
                         <Route exact path="/Listar" component={() => <Listar setUser={this.setUser} />}/>
                         <Route exact path="/register" component={() => <Register setUser={this.setUser} />}/>
+                        <Route exact path="/register/:Id" component={(routeProps) => <Register setUser={this.setUser} {...routeProps} />}/>
                     </Switch>
                 </div>
             </BrowserRouter>

@@ -9,13 +9,17 @@ class Login extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-
+        const config = {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        }
         const data = {
             email: this.email,
             password: this.password
         }
 
-        axios.post('login.php', data)
+        axios.post('login.php', data, config)
         .then(res => {
             console.log(res);
             localStorage.setItem('token', res.data.token);

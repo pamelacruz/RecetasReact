@@ -4,29 +4,30 @@ import axios from "axios";
 import Menu from '../components/menu.component';
 
 class Register extends Component {
-
     state = {
         classHide: "show",
-        classShow: 'hide'
+        classShow: 'hide',
+        fields: {
+            action: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            confirmPassword: ''
+        }
     }
+    
 
     handleSubmit = e => {
         e.preventDefault();
-        const data = {
-            first_name: this.firstName,
-            last_name: this.lastName,
-            email: this.email,
-            password: this.password,
-            password_confirm: this.confirmPassword
-        }
-
+        const data = this.state.fields;
+        console.log(data);
         axios.post('register.php', data).then(
             res => {
                 this.setState({
                     classHide: "hide",
                     classShow: 'show'
                 })
-                console.log(res)
             }
         ).catch(
             err => {
@@ -35,7 +36,53 @@ class Register extends Component {
         );
     }
 
+    async componentDidMount() {
+        if (typeof(this.props.match) != "undefined") {
+            const { Id } = this.props.match.params;
+            const config = {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+            await axios.get('user.php?Id='+ Id, config).then(
+                res => {
+                    this.setState({
+                        fields: {
+                            action: 'edit',
+                            Id: Id,
+                            firstName: res.data.user.firstName,
+                            lastName: res.data.user.lastName,
+                            email: res.data.user.email,
+                        },
+                        TextButton: "Actualizar usuario",
+                        Confirm: "El id " + Id + " fue actualizado exitosamente!"
+                    })
+                }
+            ).catch(
+                err => {
+                    console.log(err)
+                }
+            );
+        } else {
+            this.setState({
+                fields: {
+                    action: 'add'
+                },
+                TextButton: "Registrar usuario",
+                Confirm: "Registro exitoso!"
+            })
+        }
+    }
+
+    handleChange(field, e) {
+        const { fields } = this.state;
+        const { value } = e.target;
+        fields[field] = value;
+        this.setState({ fields }, () => field);
+  }
+
     render() {
+        const {fields}=this.state;
         return(
             <div className="container-fluid">
             <div className="row">
@@ -46,34 +93,34 @@ class Register extends Component {
 
                         <div className="form-group">
                             <label>First Name</label>
-                            <input type="text" className="form-control" placeholder="First Name" onChange={e => this.firstName = e.target.value } />
+                            <input type="text" className="form-control" placeholder="First Name" onChange={this.handleChange.bind(this, 'firstName')} value={fields.firstName  || ''} />
                         </div>
 
                         <div className="form-group">
                             <label>Last Name</label>
-                            <input type="text" className="form-control" placeholder="Last Name" onChange={e => this.lastName = e.target.value }  />
+                            <input type="text" className="form-control" placeholder="Last Name" onChange={this.handleChange.bind(this, 'lastName')} value={fields.lastName  || ''} />
                         </div>
 
                         <div className="form-group">
                             <label>Email</label>
-                            <input type="email" className="form-control" placeholder="Email" onChange={e => this.email = e.target.value } />
+                            <input type="email" className="form-control" placeholder="Email" onChange={this.handleChange.bind(this, 'email')} value={fields.email  || ''} />
                         </div>
 
                         <div className="form-group">
                             <label>Password</label>
-                            <input type="password" className="form-control" placeholder="Password" onChange={e => this.password = e.target.value } />
+                            <input type="password" className="form-control" placeholder="Password" onChange={this.handleChange.bind(this, 'password')} />
                         </div>
 
                         <div className="form-group">
                             <label>Confirm Password</label>
-                            <input type="password" className="form-control" placeholder="Confirm Password" onChange={e => this.confirmPassword = e.target.value } />
+                            <input type="password" className="form-control" placeholder="Confirm Password" onChange={this.handleChange.bind(this, 'confirmPassword')} />
                         </div>
-
-                        <button className="btn btn-primary btn-block">Registrar usuario</button>
+                        
+                        <button className="btn btn-primary btn-block">{this.state.TextButton}</button>
                     </form>
                     <div className={this.state.classShow}>
                         <div className="alert alert-success" role="alert">
-                            Registro exitoso!
+                            {this.state.Confirm}
                         </div>
                     </div>
                 </div>
